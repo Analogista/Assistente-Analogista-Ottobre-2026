@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Cormorant+Garamond:ital,wght@1,400;1,600&display=swap');
+@import "tailwindcss";
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-serif: "Cormorant Garamond", serif;
+  --color-upda-petrolio: #1c3b45;
+  --color-upda-ciano: #34a8b4;
+}
+
+@layer base {
+  body {
+    @apply bg-[#FDFCFB] text-slate-700 antialiased;
+    background-image: 
+      radial-gradient(circle at 2px 2px, rgba(0,0,0,0.02) 1px, transparent 0);
+    background-size: 24px 24px;
+  }
+}
+
+.tech-card {
+  @apply bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm;
+}
+
+.tech-label {
+  @apply text-[11px] md:text-[10px] font-mono uppercase tracking-[0.15em] text-slate-500;
+}
+
+.tech-value {
+  @apply font-mono text-slate-900 text-sm md:text-base;
+}
+
+.tech-input {
+  @apply w-full bg-white border border-slate-200 rounded-lg p-4 md:p-3 text-slate-900 focus:border-upda-ciano/50 focus:ring-1 focus:ring-upda-ciano/10 outline-none transition-all font-mono text-base md:text-sm;
+}
+
+.glow-ciano {
+  box-shadow: 0 0 20px rgba(52, 168, 180, 0.1);
+}
+
+.glow-rose {
+  box-shadow: 0 0 20px rgba(244, 63, 94, 0.1);
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  #report-content {
+    background: white !important;
+    color: black !important;
+    padding: 20mm !important;
+    width: 210mm;
+    margin: 0 auto;
+    box-shadow: none !important;
+  }
+  .print-section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 20px;
+    border-color: #e2e8f0 !important;
+  }
+  .tech-card {
+    border: 1px solid #e2e8f0 !important;
+    background: white !important;
+    box-shadow: none !important;
+    color: black !important;
+  }
+  /* Force black text for all elements in print */
+  #report-content *, 
+  #report-content h1, 
+  #report-content h2, 
+  #report-content h3, 
+  #report-content h4, 
+  #report-content p, 
+  #report-content span {
+    color: black !important;
+  }
+  /* Keep emerald accents if possible, but ensure they are dark enough */
+  #report-content .text-upda-ciano,
+  #report-content .text-upda-ciano {
+    color: #1c3b45 !important; /* Darker emerald for print */
+  }
+}

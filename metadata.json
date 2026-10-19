@@ -1,0 +1,8 @@
+{
+  "name": "Assistente Analogista upda 2026.2",
+  "description": "Dashboard professionale di supporto decisionale per Analogisti. Guida interattiva per diagnosi e intervento basato sulle Discipline Analogiche.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

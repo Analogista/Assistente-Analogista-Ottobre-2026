@@ -1,0 +1,180 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Public profile info for the Analogista",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "photoURL": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "displayName",
+        "email",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Report": {
+      "title": "Session Report",
+      "description": "A complete clinical session report",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string"
+        },
+        "subjectName": {
+          "type": "string"
+        },
+        "subjectAge": {
+          "type": "number"
+        },
+        "subjectGender": {
+          "type": "string",
+          "enum": [
+            "M",
+            "F"
+          ]
+        },
+        "inductor": {
+          "type": "string",
+          "enum": [
+            "Guardiano di Porta-Grillo Parlante",
+            "Mastro di Chiavi-Lucignolo"
+          ]
+        },
+        "conflictType": {
+          "type": "string",
+          "enum": [
+            "i GENITORI",
+            "ALTRI",
+            "SE' STESSO/A"
+          ]
+        },
+        "distonicPoints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "seals": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "witness": {
+          "type": "string"
+        },
+        "isJustified": {
+          "type": "boolean"
+        },
+        "decompressionLevel": {
+          "type": "number"
+        },
+        "timelineResults": {
+          "type": "object"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "ownerId",
+        "subjectName",
+        "subjectAge",
+        "subjectGender",
+        "createdAt"
+      ]
+    },
+    "Feedback": {
+      "title": "User Feedback",
+      "description": "Feedback submitted by users",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "userEmail": {
+          "type": "string"
+        },
+        "ratingOscillation": {
+          "type": "number"
+        },
+        "ratingQuestions": {
+          "type": "number"
+        },
+        "ratingFunctions": {
+          "type": "number"
+        },
+        "ratingMethod": {
+          "type": "number"
+        },
+        "deviceType": {
+          "type": "string"
+        },
+        "os": {
+          "type": "string"
+        },
+        "browser": {
+          "type": "string"
+        },
+        "openFeedback": {
+          "type": "string"
+        },
+        "feedbackInduttore": {
+          "type": "string"
+        },
+        "feedbackPuntiDistonici": {
+          "type": "string"
+        },
+        "feedbackTimeLine": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "userId",
+        "ratingFunctions",
+        "createdAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Private user profile data"
+    },
+    "/users/{userId}/reports/{reportId}": {
+      "schema": "Report",
+      "description": "Session reports for the user's subjects"
+    },
+    "/feedback/{feedbackId}": {
+      "schema": "Feedback",
+      "description": "User feedback collection"
+    }
+  }
+}

@@ -1,0 +1,113 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 0. Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- Helpers ---
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches("^[a-zA-Z0-9_\\-]+$");
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // --- Validation Helpers ---
+    
+    function isValidUser(data) {
+      return data.keys().hasAll(["displayName", "email", "updatedAt"]) &&
+             data.displayName is string && data.displayName.size() <= 100 &&
+             data.email is string && data.email.size() <= 255 &&
+             (data.photoURL == null || data.photoURL is string) &&
+             data.updatedAt == request.time;
+    }
+
+    function isValidReport(data) {
+      return data.keys().hasAll(["ownerId", "subjectName", "subjectAge", "subjectGender", "inductor", "conflictType", "distonicPoints", "seals", "witness", "isJustified", "decompressionLevel", "timelineResults", "aiSummary", "createdAt", "updatedAt"]) &&
+             data.ownerId == request.auth.uid &&
+             data.subjectName is string && data.subjectName.size() <= 100 &&
+             data.subjectAge is number &&
+             data.subjectGender in ["M", "F", ""] &&
+             data.inductor in ["Guardiano di Porta-Grillo Parlante", "Mastro di Chiavi-Lucignolo", ""] &&
+             data.conflictType in ["i GENITORI", "ALTRI", "SE' STESSO/A", ""] &&
+             data.distonicPoints is list && data.distonicPoints.size() <= 20 &&
+             data.seals is list && data.seals.size() <= 30 &&
+             data.witness is string &&
+             (data.isJustified is bool || data.isJustified == null) &&
+             data.decompressionLevel is number &&
+             (data.timelineResults is map || data.timelineResults == null) &&
+             (!data.keys().hasAny(["problemDefinition"]) || data.problemDefinition is map) &&
+             (!data.keys().hasAny(["blockAnalysisState"]) || data.blockAnalysisState is map) &&
+             (!data.keys().hasAny(["tapForward"]) || data.tapForward is string) &&
+             (!data.keys().hasAny(["tapBackward"]) || data.tapBackward is list) &&
+             (!data.keys().hasAny(["tapResult"]) || data.tapResult is string || data.tapResult == null) &&
+             data.aiSummary is string && data.aiSummary.size() <= 10000 &&
+             data.createdAt == request.time &&
+             data.updatedAt == request.time;
+    }
+
+        function isValidFeedback(data) {
+      return data.keys().hasAll(["userId", "ratingFunctions", "createdAt"]) &&
+             data.userId == request.auth.uid &&
+             data.ratingFunctions is number &&
+             (!data.keys().hasAny(["userEmail"]) || data.userEmail is string) &&
+             (!data.keys().hasAny(["ratingOscillation"]) || data.ratingOscillation is number) &&
+             (!data.keys().hasAny(["ratingQuestions"]) || data.ratingQuestions is number) &&
+             (!data.keys().hasAny(["ratingMethod"]) || data.ratingMethod is number) &&
+             (!data.keys().hasAny(["deviceType"]) || data.deviceType is string) &&
+             (!data.keys().hasAny(["os"]) || data.os is string) &&
+             (!data.keys().hasAny(["browser"]) || data.browser is string) &&
+             (!data.keys().hasAny(["openFeedback"]) || data.openFeedback is string) &&
+             (!data.keys().hasAny(["feedbackInduttore"]) || data.feedbackInduttore is string) &&
+             (!data.keys().hasAny(["feedbackPuntiDistonici"]) || data.feedbackPuntiDistonici is string) &&
+             (!data.keys().hasAny(["feedbackTimeLine"]) || data.feedbackTimeLine is string) &&
+             data.createdAt == request.time;
+    }
+
+    // --- Collections ---
+
+        match /feedback/{feedbackId} {
+      allow create: if isSignedIn() && isValidId(feedbackId) && isValidFeedback(incoming());
+      allow read, delete: if isSignedIn() && request.auth.token.email == 'analogistabrindisi@gmail.com';
+      allow update: if false;
+    }
+
+    match /users/{userId} {
+      allow get: if isOwner(userId) && isValidId(userId);
+      allow create: if isOwner(userId) && isValidId(userId) && 
+                      isValidUser(incoming()) && 
+                      incoming().keys().hasAll(["createdAt"]) &&
+                      incoming().createdAt == request.time;
+      allow update: if isOwner(userId) && isValidId(userId) &&
+                      isValidUser(incoming()) &&
+                      (!incoming().keys().hasAny(["createdAt"]) || incoming().createdAt == existing().createdAt);
+
+      match /reports/{reportId} {
+        allow list: if isOwner(userId) && resource.data.ownerId == request.auth.uid;
+        allow get: if isOwner(userId) && isValidId(reportId);
+        allow create: if isOwner(userId) && isValidId(reportId) && isValidReport(incoming());
+        allow update: if isOwner(userId) && isValidId(reportId) && 
+                        isValidReport(incoming()) &&
+                        incoming().createdAt == existing().createdAt &&
+                        incoming().ownerId == existing().ownerId &&
+                        incoming().updatedAt == request.time;
+        allow delete: if isOwner(userId) && isValidId(reportId);
+      }
+    }
+  }
+}
