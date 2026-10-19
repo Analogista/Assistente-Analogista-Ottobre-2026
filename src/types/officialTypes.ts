@@ -3,8 +3,9 @@ export interface Scheda1Data {
   cognome: string;
   telefono: string;
   eta: string;
+  professione?: string;
+  recapito?: string;
   focusObiettivo: string;
-  // Analisi 5 Punti (primo incontro)
   famigliaOrigine: 'SI' | 'NO' | '';
   famigliaOrigineNote: string;
   rapportiSentimentali: 'SI' | 'NO' | '';
@@ -15,8 +16,10 @@ export interface Scheda1Data {
   autorealizzazioneNote: string;
   disturbiEmotivita: 'SI' | 'NO' | '';
   disturbiEmotivitaQuali: string;
-  // Causa del Conflitto [Parola Chiave]
   causaConflitto: 'Genitori' | 'SeStesso' | 'Altri' | 'Destino' | '';
+  punti?: Array<{ id: string; titolo: string; valore: string; dettaglio?: string }>;
+  causaPuntiSelezionati?: string[];
+  cosaNonFarestiMai?: string;
 }
 
 export interface Scheda2Data {
@@ -66,6 +69,8 @@ export const INITIAL_OFFICIAL_STATE: OfficialInvestigationState = {
     cognome: '',
     telefono: '',
     eta: '',
+    professione: '',
+    recapito: '',
     focusObiettivo: '',
     famigliaOrigine: '',
     famigliaOrigineNote: '',
@@ -77,7 +82,10 @@ export const INITIAL_OFFICIAL_STATE: OfficialInvestigationState = {
     autorealizzazioneNote: '',
     disturbiEmotivita: '',
     disturbiEmotivitaQuali: '',
-    causaConflitto: ''
+    causaConflitto: '',
+    punti: [],
+    causaPuntiSelezionati: [],
+    cosaNonFarestiMai: ''
   },
   scheda2: {
     braccioInduttore: 'DX',

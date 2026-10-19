@@ -517,6 +517,24 @@ export default function App() {
     setState(prev => ({ ...prev, subject: { ...prev.subject, ...updates } }));
   };
 
+  useEffect(() => {
+    if (state.subject.name || state.subject.age || state.subject.focus) {
+      const nameParts = (state.subject.name || '').trim().split(' ');
+      const nome = nameParts[0] || '';
+      const cognome = nameParts.slice(1).join(' ') || '';
+      setOfficialState(prev => ({
+        ...prev,
+        scheda1: {
+          ...prev.scheda1,
+          nome: prev.scheda1.nome || nome,
+          cognome: prev.scheda1.cognome || cognome,
+          eta: prev.scheda1.eta || (state.subject.age ? String(state.subject.age) : ''),
+          focusObiettivo: prev.scheda1.focusObiettivo || state.subject.focus || ''
+        }
+      }));
+    }
+  }, [state.subject.name, state.subject.age, state.subject.focus]);
+
   const updateTimeline = (updates: Partial<typeof state.timeline>) => {
     setState(prev => ({ ...prev, timeline: { ...prev.timeline, ...updates } }));
   };
