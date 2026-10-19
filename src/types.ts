@@ -1,5 +1,6 @@
 export interface SubjectData {
   name: string;
+  telefono: string;
   age: number;
   gender: 'M' | 'F' | '';
   focus: string;
@@ -26,7 +27,7 @@ export interface SessionState {
 }
 
 export const INITIAL_STATE: SessionState = {
-  subject: { name: '', age: 0, gender: '', focus: '' },
+  subject: { name: '', telefono: '', age: 0, gender: '', focus: '' },
   inductor: '',
   conflictType: '',
   distonicPoints: [],

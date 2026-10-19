@@ -1,6 +1,6 @@
 import React from 'react';
 import { Scheda3Data } from '../../types/officialTypes';
-import { Sparkles, Users, ArrowLeftRight, CheckCircle2, Circle, ArrowLeft, Check } from 'lucide-react';
+import { Sparkles, Users, ArrowLeftRight, ArrowUpDown, CheckCircle2, Circle, ArrowLeft, Check } from 'lucide-react';
 
 interface Props {
   data: Scheda3Data;
@@ -83,12 +83,15 @@ export const Scheda3CelebrazioneView: React.FC<Props> = ({
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-            {/* Recettore Riflessivo / Ente Giudicante */}
-            <div className="bg-white p-4 rounded-xl border border-slate-200 space-y-2 shadow-2xs">
-              <span className="text-[9px] font-mono uppercase tracking-widest text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 inline-block font-bold">
-                PT / DK
-              </span>
+          <div className="max-w-2xl mx-auto space-y-4">
+            {/* Recettore Riflessivo / Ente Giudicante (Top) */}
+            <div className="bg-white p-5 rounded-xl border border-slate-200 space-y-2 shadow-sm">
+              <div className="flex items-center justify-between">
+                <span className="text-[9px] font-mono uppercase tracking-widest text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 font-bold">
+                  PT / DK (Superiore)
+                </span>
+                <span className="text-[10px] font-mono text-slate-400 uppercase font-bold">Ente Giudicante</span>
+              </div>
               <label className="text-xs font-bold text-slate-900 block">
                 Recettore Riflessivo / Ente Giudicante
               </label>
@@ -104,11 +107,26 @@ export const Scheda3CelebrazioneView: React.FC<Props> = ({
               />
             </div>
 
-            {/* Recettore Emotivo / Ente Giudicato */}
-            <div className="bg-white p-4 rounded-xl border border-slate-200 space-y-2 shadow-2xs">
-              <span className="text-[9px] font-mono uppercase tracking-widest text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 inline-block font-bold">
-                AF / F
+            {/* Vertical Double Arrow Connector */}
+            <div className="flex flex-col items-center justify-center py-2">
+              <div className="w-0.5 h-8 bg-upda-petrolio/60"></div>
+              <div className="bg-upda-petrolio text-white p-3 rounded-full shadow-md my-1">
+                <ArrowUpDown size={22} />
+              </div>
+              <span className="text-[10px] font-mono text-upda-petrolio font-black uppercase tracking-widest my-1">
+                Dinamica Relazionale Verticale
               </span>
+              <div className="w-0.5 h-8 bg-upda-petrolio/60"></div>
+            </div>
+
+            {/* Recettore Emotivo / Ente Giudicato (Bottom) */}
+            <div className="bg-white p-5 rounded-xl border border-slate-200 space-y-2 shadow-sm">
+              <div className="flex items-center justify-between">
+                <span className="text-[9px] font-mono uppercase tracking-widest text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-bold">
+                  AF / F (Inferiore)
+                </span>
+                <span className="text-[10px] font-mono text-slate-400 uppercase font-bold">Ente Giudicato</span>
+              </div>
               <label className="text-xs font-bold text-slate-900 block">
                 Recettore Emotivo / Ente Giudicato
               </label>
@@ -122,40 +140,6 @@ export const Scheda3CelebrazioneView: React.FC<Props> = ({
                 placeholder="Es. Io Bambino / Madre / Padre / Altro..."
                 className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs font-semibold text-slate-900 focus:bg-white focus:outline-none focus:border-upda-petrolio"
               />
-            </div>
-          </div>
-
-          {/* Diagramma Interattivo Frecce Bidirezionali */}
-          <div className="bg-white p-4 rounded-xl border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex-1 text-center p-3 bg-amber-50 rounded-lg border border-amber-200">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-amber-800 font-bold block">
-                Ente Giudicante
-              </span>
-              <span className="text-xs font-black text-slate-900">
-                {data.recettoreRiflessivoEnteGiudicante || 'Non specificato'}
-              </span>
-            </div>
-
-            <div className="flex flex-col items-center justify-center px-4">
-              <div className="flex items-center gap-1 text-upda-petrolio font-mono font-bold text-xs">
-                <span>&larr;</span>
-                <span className="h-0.5 w-12 bg-upda-petrolio"></span>
-                <ArrowLeftRight size={16} className="text-upda-petrolio mx-1" />
-                <span className="h-0.5 w-12 bg-upda-petrolio"></span>
-                <span>&rarr;</span>
-              </div>
-              <span className="text-[9px] font-mono text-slate-400 mt-1 uppercase tracking-widest">
-                Dinamica Relazionale
-              </span>
-            </div>
-
-            <div className="flex-1 text-center p-3 bg-emerald-50 rounded-lg border border-emerald-200">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-800 font-bold block">
-                Ente Giudicato
-              </span>
-              <span className="text-xs font-black text-slate-900">
-                {data.recettoreEmotivoEnteGiudicato || 'Non specificato'}
-              </span>
             </div>
           </div>
 

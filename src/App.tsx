@@ -26,6 +26,8 @@ import {
   Trash2,
   History,
   CheckCircle,
+  CheckCircle2,
+  Check,
   MessageSquare,
   Shield,
   Home,
@@ -517,6 +519,27 @@ export default function App() {
     setState(prev => ({ ...prev, subject: { ...prev.subject, ...updates } }));
   };
 
+  const [clientSaved, setClientSaved] = useState(false);
+
+  const handleSaveClient = () => {
+    const nameParts = (state.subject.name || '').trim().split(' ');
+    const nome = nameParts[0] || '';
+    const cognome = nameParts.slice(1).join(' ') || '';
+    setOfficialState(prev => ({
+      ...prev,
+      scheda1: {
+        ...prev.scheda1,
+        nome,
+        cognome,
+        telefono: state.subject.telefono || '',
+        eta: state.subject.age ? String(state.subject.age) : '',
+        focusObiettivo: state.subject.focus || ''
+      }
+    }));
+    setClientSaved(true);
+    setTimeout(() => setClientSaved(false), 4000);
+  };
+
   useEffect(() => {
     if (state.subject.name || state.subject.age || state.subject.focus) {
       const nameParts = (state.subject.name || '').trim().split(' ');
@@ -643,34 +666,47 @@ export default function App() {
 
   const renderSubjectModule = () => (
     <div className="space-y-8">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div className="space-y-2">
-          <label className="tech-label block notranslate" translate="no" style={{ color: '#000205' }}>NOME e COGNOME</label>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="space-y-2 md:col-span-2">
+          <label className="tech-label block notranslate" translate="no" style={{ color: '#000205' }}>NOME E COGNOME</label>
           <input 
             type="text" 
             value={state.subject.name}
             onChange={(e) => updateSubject({ name: e.target.value })}
             className="tech-input"
-            placeholder="Inserire nome o codice..."
+            placeholder="Nome e cognome del cliente..."
           />
         </div>
         <div className="space-y-2">
-          <label className="tech-label block notranslate" translate="no" style={{ color: '#000204' }}>ETA'</label>
+          <label className="tech-label block notranslate" translate="no" style={{ color: '#000205' }}>TELEFONO</label>
+          <input 
+            type="tel" 
+            value={state.subject.telefono}
+            onChange={(e) => updateSubject({ telefono: e.target.value })}
+            className="tech-input"
+            placeholder="Recapito telefonico..."
+          />
+        </div>
+        <div className="space-y-2">
+          <label className="tech-label block notranslate" translate="no" style={{ color: '#000204' }}>ETÀ</label>
           <input 
             type="number" 
             value={state.subject.age || ''}
             onChange={(e) => updateSubject({ age: parseInt(e.target.value) || 0 })}
-            className="tech-input"
-            style={{ width: '120px', height: '42.6px' }}
-            placeholder="0"
+            className="tech-input font-mono"
+            placeholder="Es. 38"
           />
         </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
         <div className="space-y-2">
-          <label className="tech-label block text-center notranslate" translate="no">SESSO</label>
+          <label className="tech-label block notranslate" translate="no">SESSO (M / F)</label>
           <div className="flex gap-2">
             {['M', 'F'].map(g => (
               <button
                 key={g}
+                type="button"
                 onClick={() => updateSubject({ gender: g as any })}
                 className={cn(
                   "flex-1 py-3 rounded-lg border font-mono font-bold transition-all",
@@ -684,7 +720,25 @@ export default function App() {
             ))}
           </div>
         </div>
+
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={handleSaveClient}
+            className="w-full bg-upda-petrolio hover:bg-upda-petrolio/90 text-white font-mono font-bold uppercase tracking-wider py-3.5 px-6 rounded-xl transition-all shadow-sm flex items-center justify-center gap-2"
+          >
+            <Check size={16} />
+            <span>Salva Dati Cliente</span>
+          </button>
+        </div>
       </div>
+
+      {clientSaved && (
+        <div className="p-4 bg-upda-ciano/15 border border-upda-ciano/40 rounded-xl text-xs font-mono font-bold text-upda-petrolio flex items-center gap-2 animate-in fade-in">
+          <CheckCircle2 size={16} className="text-upda-petrolio" />
+          <span>Dati cliente salvati e sincronizzati con successo! Età ({state.subject.age} anni) registrata per i calcoli.</span>
+        </div>
+      )}
       
       <div className="space-y-2">
         <label className="tech-label block text-center notranslate" translate="no">PROBLEMA DA RISOLVERE (FOCUS)</label>
@@ -3228,21 +3282,19 @@ export default function App() {
       style={{ height: '54px', width: '280px' }}
       translate="no"
     >
-      Modulo {activeTab} di 6 • {state.subject.name || 'Nuovo Soggetto'}
+      Modulo {activeTab} di {investigationMode === 'officiale' ? 3 : investigationMode === 'completa' ? 5 : 6} • {state.subject.name || 'Nuovo Soggetto'}
     </p>
   )}
                     </div>
-                    {activeTab <= 6 && <div className="flex gap-1.5">
-                      {[1,2,3,4,5,6].map(i => (
+                    {activeTab <= (investigationMode === 'officiale' ? 3 : investigationMode === 'completa' ? 5 : 6) && <div className="flex gap-1.5">
+                      {Array.from({ length: investigationMode === 'officiale' ? 3 : investigationMode === 'completa' ? 5 : 6 }, (_, idx) => idx + 1).map(i => (
                         <div 
                           key={i} 
                           className={cn(
                             "w-12 h-1.5 rounded-full transition-all duration-500", 
                             i <= activeTab 
                               ? "bg-upda-ciano shadow-[0_0_10px_rgba(16,185,129,0.3)]" 
-                              : i === 6 
-                                ? "bg-transparent border border-[#e0173c]" 
-                                : "bg-slate-200"
+                              : "bg-slate-200"
                           )} 
                         />
                       ))}
@@ -3317,7 +3369,7 @@ export default function App() {
             </div>
             
             {/* Footer Navigation */}
-            {investigationMode !== 'none' && activeTab <= 5 && (
+            {investigationMode !== 'none' && activeTab <= (investigationMode === 'officiale' ? 3 : 5) && (
               <div className="mt-6 flex justify-between">
                 <button
                   onClick={() => setActiveTab(prev => Math.max(1, prev - 1))}
@@ -3328,11 +3380,17 @@ export default function App() {
                   Precedente
                 </button>
                 <button
-                  onClick={() => setActiveTab(prev => Math.min(5, prev + 1))}
-                  disabled={activeTab === 5}
-                  className="flex items-center gap-2 bg-upda-ciano text-slate-900 px-8 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-upda-ciano disabled:opacity-0 transition-all shadow-[0_0_20px_rgba(16,185,129,0.2)]"
+                  onClick={() => {
+                    const maxM = investigationMode === 'officiale' ? 3 : 5;
+                    if (activeTab < maxM) {
+                      setActiveTab(prev => prev + 1);
+                    } else {
+                      setActiveTab(6); // Go to report module
+                    }
+                  }}
+                  className="flex items-center gap-2 bg-upda-ciano text-slate-900 px-8 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-upda-ciano transition-all shadow-[0_0_20px_rgba(16,185,129,0.2)]"
                 >
-                  Successivo
+                  {activeTab === (investigationMode === 'officiale' ? 3 : 5) ? 'Concludi e Genera Report' : 'Successivo'}
                   <ChevronRight size={14} />
                 </button>
               </div>

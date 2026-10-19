@@ -45,79 +45,36 @@ export const Scheda1IndagineView: React.FC<Props> = ({ data, onChange, onNext })
       </div>
 
       <div className="p-6 md:p-8 space-y-8">
-        {/* Dati Anagrafici */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 p-5 bg-slate-50 rounded-xl border border-slate-200">
-          <div className="space-y-1.5">
-            <label className="text-[10px] font-mono uppercase tracking-wider text-slate-500 font-bold flex items-center gap-1.5">
-              <User size={12} className="text-slate-400" /> Nome
-            </label>
-            <input
-              type="text"
-              value={data.nome}
-              onChange={(e) => onChange({ nome: e.target.value })}
-              placeholder="Nome del soggetto..."
-              className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs font-medium text-slate-900 focus:outline-none focus:border-upda-petrolio focus:ring-1 focus:ring-upda-petrolio"
-            />
+        {/* Riepilogo Dati Cliente (Salvato in Home) */}
+        <div className="p-5 bg-upda-ciano/5 rounded-xl border border-upda-ciano/30 space-y-3">
+          <div className="flex items-center justify-between border-b border-upda-ciano/20 pb-2">
+            <span className="text-xs font-mono font-bold uppercase text-upda-petrolio flex items-center gap-2">
+              <User size={14} /> Dati Cliente & Focus Sincronizzati
+            </span>
+            <span className="text-[10px] font-mono bg-upda-ciano/20 text-slate-900 px-2.5 py-0.5 rounded-full font-bold">
+              Età: {data.eta || 'N.D.'} anni
+            </span>
           </div>
-
-          <div className="space-y-1.5">
-            <label className="text-[10px] font-mono uppercase tracking-wider text-slate-500 font-bold flex items-center gap-1.5">
-              <User size={12} className="text-slate-400" /> Cognome
-            </label>
-            <input
-              type="text"
-              value={data.cognome}
-              onChange={(e) => onChange({ cognome: e.target.value })}
-              placeholder="Cognome del soggetto..."
-              className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs font-medium text-slate-900 focus:outline-none focus:border-upda-petrolio focus:ring-1 focus:ring-upda-petrolio"
-            />
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-mono">
+            <div>
+              <span className="text-slate-500 block text-[10px] uppercase">Nome e Cognome</span>
+              <strong className="text-slate-900 text-sm font-sans">{data.nome || 'Non specificato'} {data.cognome || ''}</strong>
+            </div>
+            <div>
+              <span className="text-slate-500 block text-[10px] uppercase">Telefono</span>
+              <span className="text-slate-900">{data.telefono || 'Non specificato'}</span>
+            </div>
+            <div>
+              <span className="text-slate-500 block text-[10px] uppercase">Età Rilevata</span>
+              <span className="text-slate-900 font-bold">{data.eta || '0'} anni</span>
+            </div>
           </div>
-
-          <div className="space-y-1.5">
-            <label className="text-[10px] font-mono uppercase tracking-wider text-slate-500 font-bold flex items-center gap-1.5">
-              <Phone size={12} className="text-slate-400" /> Tel
-            </label>
-            <input
-              type="tel"
-              value={data.telefono}
-              onChange={(e) => onChange({ telefono: e.target.value })}
-              placeholder="Recapito telefonico..."
-              className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs font-medium text-slate-900 focus:outline-none focus:border-upda-petrolio focus:ring-1 focus:ring-upda-petrolio"
-            />
-          </div>
-
-          <div className="space-y-1.5">
-            <label className="text-[10px] font-mono uppercase tracking-wider text-slate-500 font-bold flex items-center gap-1.5">
-              <Calendar size={12} className="text-slate-400" /> Età
-            </label>
-            <input
-              type="text"
-              value={data.eta}
-              onChange={(e) => onChange({ eta: e.target.value })}
-              placeholder="Es. 38"
-              className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs font-medium text-slate-900 focus:outline-none focus:border-upda-petrolio focus:ring-1 focus:ring-upda-petrolio font-mono"
-            />
-          </div>
-        </div>
-
-        {/* FOCUS / OBIETTIVO */}
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
-            <Target size={16} className="text-upda-petrolio" />
-            <h3 className="text-xs font-mono font-black uppercase tracking-widest text-slate-900">
-              FOCUS / OBIETTIVO
-            </h3>
-          </div>
-          <p className="text-[11px] text-slate-500 italic">
-            Specificare l'obiettivo o il disagio focale dell'intervento di riequilibrio emozionale:
-          </p>
-          <textarea
-            value={data.focusObiettivo}
-            onChange={(e) => onChange({ focusObiettivo: e.target.value })}
-            rows={3}
-            placeholder="Descrizione del focus o obiettivo dichiarato..."
-            className="w-full bg-slate-50 border border-slate-300 rounded-xl p-3.5 text-xs text-slate-900 leading-relaxed focus:bg-white focus:outline-none focus:border-upda-petrolio focus:ring-1 focus:ring-upda-petrolio"
-          />
+          {data.focusObiettivo && (
+            <div className="pt-2 border-t border-upda-ciano/10">
+              <span className="text-slate-500 block text-[10px] uppercase font-mono">Focus / Obiettivo da Risolvere</span>
+              <p className="text-xs text-slate-800 font-sans mt-0.5 leading-relaxed">{data.focusObiettivo}</p>
+            </div>
+          )}
         </div>
 
         {/* ANALISI 5 PUNTI (primo incontro) */}
