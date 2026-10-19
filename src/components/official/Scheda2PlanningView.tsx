@@ -178,7 +178,7 @@ export const Scheda2PlanningView: React.FC<Props> = ({ data, subjectAge, onChang
         </div>
         <div className="px-4 py-2 rounded-lg bg-upda-ciano/15 border border-upda-ciano/30 text-right">
           <span className="text-[9px] font-mono uppercase tracking-widest text-slate-300 block">Identificativo Scheda</span>
-          <span className="text-xs font-mono font-black text-upda-ciano">SCHEDA 02 • PLANNING (0524)</span>
+          <span className="text-xs font-mono font-black text-upda-ciano">SCHEDA 02 • PLANNING</span>
         </div>
       </div>
 

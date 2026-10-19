@@ -700,7 +700,7 @@ export default function App() {
             <div className="bg-white border-2 border-upda-ciano/40 hover:border-upda-ciano p-6 md:p-8 rounded-2xl shadow-sm space-y-4 flex flex-col justify-between transition-all group">
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-mono uppercase px-3 py-1 bg-upda-ciano/10 text-upda-petrolio font-bold rounded-full">Protocollo Schede 0523 - 0525</span>
+                  <span className="text-[10px] font-mono uppercase px-3 py-1 bg-upda-ciano/10 text-upda-petrolio font-bold rounded-full">Protocollo Schede Operative</span>
                   <Activity className="text-upda-ciano group-hover:scale-110 transition-transform" size={20} />
                 </div>
                 <h4 className="text-lg font-bold text-slate-900 uppercase tracking-tight">INDAGINE UFFICIALE</h4>
@@ -708,7 +708,7 @@ export default function App() {
                   Percorso ufficiale strutturato in 3 schede operative: Scheda 01 (Indagine 5 Punti & Conflitti), Scheda 02 (Planning & Tipologia), Scheda 03 (Celebrazione & Relazione Significativa).
                 </p>
                 <div className="flex flex-wrap gap-1.5 pt-2">
-                  {['Scheda 01 • Indagine (0523)', 'Scheda 02 • Planning (0524)', 'Scheda 03 • Celebrazione (0525)'].map((t, idx) => (
+                  {['Scheda 01 • Indagine', 'Scheda 02 • Planning', 'Scheda 03 • Celebrazione'].map((t, idx) => (
                     <span key={idx} className="text-[9px] font-mono bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-md text-slate-700 font-bold">
                       {t}
                     </span>
@@ -2367,7 +2367,7 @@ export default function App() {
                 <div>
                   <span className="text-[10px] font-mono uppercase tracking-widest text-upda-ciano block mb-1">UPDA • DISCIPLINE ANALOGICHE BENEMEGLIANE</span>
                   <h3 className="text-xl font-bold uppercase tracking-tight">Report Ufficiale di Sessione Analogica</h3>
-                  <p className="text-xs text-slate-300 font-mono mt-1">Percorso Schede Operative 0523 • 0524 • 0525</p>
+                  <p className="text-xs text-slate-300 font-mono mt-1">Percorso Schede Operative</p>
                 </div>
                 <div className="text-right">
                   <span className="text-[10px] font-mono uppercase text-slate-400 block">Soggetto</span>
@@ -2380,7 +2380,7 @@ export default function App() {
                 <div className="flex items-center justify-between border-b border-slate-200 pb-4">
                   <h4 className="text-sm font-bold uppercase tracking-widest text-upda-petrolio flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-upda-ciano" />
-                    Scheda 01 • Indagine (0523)
+                    Scheda 01 • Indagine
                   </h4>
                   <span className="text-[10px] font-mono uppercase bg-white border border-slate-200 px-3 py-1 rounded-full text-slate-600 font-bold">5 Punti & Causa Conflitto</span>
                 </div>
@@ -2447,7 +2447,7 @@ export default function App() {
                 <div className="flex items-center justify-between border-b border-slate-200 pb-4">
                   <h4 className="text-sm font-bold uppercase tracking-widest text-upda-petrolio flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-upda-ciano" />
-                    Scheda 02 • Planning (0524)
+                    Scheda 02 • Planning
                   </h4>
                   <span className="text-[10px] font-mono uppercase bg-white border border-slate-200 px-3 py-1 rounded-full text-slate-600 font-bold">Biometria, Planning & Tipologia</span>
                 </div>
@@ -2594,7 +2594,7 @@ export default function App() {
                 <div className="flex items-center justify-between border-b border-slate-200 pb-4">
                   <h4 className="text-sm font-bold uppercase tracking-widest text-upda-petrolio flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-upda-ciano" />
-                    Scheda 03 • Celebrazione & Relazione (0525)
+                    Scheda 03 • Celebrazione & Relazione
                   </h4>
                   <span className="text-[10px] font-mono uppercase bg-white border border-slate-200 px-3 py-1 rounded-full text-slate-600 font-bold">Relazione Significativa & Perdono</span>
                 </div>
@@ -3013,9 +3013,9 @@ export default function App() {
   const tabs = useMemo(() => {
     if (investigationMode === 'officiale') {
       return [
-        { id: 1, label: 'Scheda 1 • Indagine (0523)', icon: FileText },
-        { id: 2, label: 'Scheda 2 • Planning (0524)', icon: Clock },
-        { id: 3, label: 'Scheda 3 • Celebrazione (0525)', icon: Sparkles },
+        { id: 1, label: 'Scheda 1 • Indagine', icon: FileText },
+        { id: 2, label: 'Scheda 2 • Planning', icon: Clock },
+        { id: 3, label: 'Scheda 3 • Celebrazione', icon: Sparkles },
         { id: 6, label: 'Report Ufficiale', icon: Download },
       ];
     } else if (investigationMode === 'completa') {
