@@ -17,7 +17,18 @@ let googleProviderInstance: any = null;
 try {
   if (isFirebaseValid) {
     app = initializeApp(firebaseConfig);
-    dbInstance = getFirestore(app, firebaseConfig.firestoreDatabaseId);
+    try {
+      dbInstance = (firebaseConfig.firestoreDatabaseId && firebaseConfig.firestoreDatabaseId !== '(default)')
+        ? getFirestore(app, firebaseConfig.firestoreDatabaseId)
+        : getFirestore(app);
+    } catch (dbErr) {
+      console.warn("Falling back to default Firestore database:", dbErr);
+      try {
+        dbInstance = getFirestore(app);
+      } catch (err2) {
+        console.error("Firestore initialization failed:", err2);
+      }
+    }
     authInstance = getAuth(app);
     googleProviderInstance = new GoogleAuthProvider();
     googleProviderInstance.setCustomParameters({ prompt: 'select_account' });

@@ -171,6 +171,13 @@ export default function App() {
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<'success' | 'error' | null>(null);
   const [lastErrorMessage, setLastErrorMessage] = useState<string | null>(null);
+  const [showServerWakeupNotice, setShowServerWakeupNotice] = useState<boolean>(() => {
+    try {
+      return sessionStorage.getItem('dismiss_wakeup_banner') !== 'true';
+    } catch {
+      return true;
+    }
+  });
 
   const localFallbackUser = {
     uid: 'local_user_analogista',
@@ -3107,6 +3114,33 @@ export default function App() {
 
   return (
     <div className="min-h-screen font-sans selection:bg-upda-ciano/30">
+      {/* Banner di avviso risveglio server per i tester */}
+      {showServerWakeupNotice && (
+        <div className="bg-amber-500/90 text-slate-950 px-4 py-2.5 text-xs md:text-sm font-medium border-b border-amber-600 shadow-sm relative z-[60] backdrop-blur-sm">
+          <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5">
+              <Info className="w-4 h-4 text-slate-950 shrink-0 font-bold" />
+              <p className="leading-snug">
+                <strong>Avviso:</strong> La prima volta che aprite il link, attendete 15-20 secondi affinché il server si risvegli. Se compare la schermata 503, basta fare un semplice aggiorna pagina (F5 o ricarica).
+              </p>
+            </div>
+            <button
+              onClick={() => {
+                setShowServerWakeupNotice(false);
+                try {
+                  sessionStorage.setItem('dismiss_wakeup_banner', 'true');
+                } catch {}
+              }}
+              className="text-slate-900 hover:text-black hover:bg-amber-600/30 p-1 rounded-md transition-colors shrink-0"
+              title="Chiudi avviso"
+              aria-label="Chiudi avviso"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <header className="bg-upda-petrolio border-b border-upda-petrolio/20 sticky top-0 z-50 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 h-20 md:h-16 flex items-center justify-between">
